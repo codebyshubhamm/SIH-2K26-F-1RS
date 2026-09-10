@@ -315,7 +315,7 @@ npm run preview
 
 - **Live Web Application:** [https://sih-2026-nu-ten.vercel.app/](https://sih-2026-nu-ten.vercel.app/)
 - **Presentation Deck:** See [submission/PRESENTATION.md](https://docs.google.com/presentation/d/1ORwPvLgP6Ni3FeG5BahZI_S0C2mZuAu9/edit?slide=id.p1#slide=id.p1)
-- **Demo Video Walkthrough:** See [submission/DEMO.md](https://drive.google.com/file/d/1RFmJnSx9_HTqpIgeYI4qNwU8r460FTp6/view?pli=1)
+- **Demo Video Walkthrough:** See [submission/DEMO.md](https://drive.google.com/drive/folders/16Wlb9OPWw7XWWOp1OCEa2qXNFlJxGEv3)
 
 
 ---
