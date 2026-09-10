@@ -37,14 +37,14 @@ THERMOS (Thermal Event Recognition and Monitoring Operational System) is an auto
                                     ▼
                         ┌────────────────────────┐
                         │  ML Classification     │
-                        │   (XGBoost Ensemble)   │
+                        │ (XGBoost - 6 Classes)  │
                         └───────────┬────────────┘
                                     │
                         ┌───────────┴────────────┐
                         ▼                        ▼
              ┌─────────────────────┐  ┌─────────────────────┐
              │ Explainable Factors │  │ Operational Risk    │
-             │   (Evidence Card)   │  │ Engine (0-100 Score)│
+             │  (SHAP & Evidence)  │  │ Engine (0-100 Score)│
              └──────────┬──────────┘  └──────────┬──────────┘
                         └───────────┬────────────┘
                                     │
@@ -80,7 +80,7 @@ THERMOS (Thermal Event Recognition and Monitoring Operational System) is an auto
 - Performs spatial-temporal deduplication and active cluster association within a 750m buffer.
 
 ### 3.2 Geospatial & Context Enrichment
-- **OSM Overpass Integration:** Computes spatial distance to nearest designated industrial infrastructure (refineries, petrochemical tanks, steel fabrication plants, power substations).
+- **OSM Overpass Integration:** Computes spatial distance to nearest designated industrial infrastructure (refineries, petrochemical tanks, steel fabrication plants, mining sites, power substations).
 - **ESA WorldCover Categorization:** Extracts categorical land-use classification (cropland, industrial land, woodland, open scrub, water body).
 - **WorldPop Demographics:** Queries high-resolution raster tiles to aggregate population count within 1 km and 5 km circles.
 
@@ -91,24 +91,31 @@ THERMOS (Thermal Event Recognition and Monitoring Operational System) is an auto
 
 ### 3.4 Feature Engineering (14-Dimensional Vector)
 The model synthesizes tabular variables:
-1. `brightness_temperature` (Kelvin)
-2. `fire_radiative_power` (MW)
-3. `confidence_score` (0–100%)
-4. `scan_angle` & `track`
-5. `solar_zenith_angle` (Day / Night flag)
-6. `distance_to_industrial_zone` (meters)
-7. `industrial_polygon_match` (boolean)
-8. `esa_landcover_class` (categorical index)
-9. `population_density_1km` (people / km²)
-10. `population_density_5km` (people / km²)
-11. `thermal_persistence_24h` (hours)
-12. `thermal_persistence_7d` (hours)
-13. `delta_frp_rate` (escalation rate)
-14. `seasonal_burn_index` (agricultural calendar alignment)
+1. `cropland_proximity_km`
+2. `mine_proximity_km`
+3. `forest_proximity_km`
+4. `observation_count_7d`
+5. `industrial_proximity_km`
+6. `population_5km`
+7. `refinery_proximity_km`
+8. `land_cover`
+9. `persistence_hours_7d`
+10. `frp_trend_pct`
+11. `brightness_k` (Kelvin)
+12. `frp_mw` (MW)
+13. `daynight` (Day/Night flag)
+14. `firms_confidence_pct`
 
 ### 3.5 ML Classification & Risk Engine
-- **Model:** Tuned multi-class XGBoost classifier predicting category probabilities.
-- **Explainability:** Generates normalized evidence contributions (persistence weight, industrial proximity, FRP velocity).
+- **Model:** Tuned multi-class XGBoost classifier (`n_estimators: 200`, `max_depth: 6`, `learning_rate: 0.1`).
+- **Target Classes (6):**
+  1. `Agricultural Burning`
+  2. `Gas Flare`
+  3. `Industrial Fire`
+  4. `Industrial Thermal Source`
+  5. `Mining Activity`
+  6. `Wildfire`
+- **Explainability:** Generates normalized evidence contributions using SHAP (SHapley Additive exPlanations) values.
 - **Risk Score Formulation:**
   $$\text{Risk} = w_1 \cdot \text{ClassificationRisk} + w_2 \cdot \text{ProximityHazard} + w_3 \cdot \text{PopulationExposure} + w_4 \cdot \text{EscalationRate}$$
 

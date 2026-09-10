@@ -4,9 +4,12 @@
 [![Problem Statement](https://img.shields.io/badge/PS_ID-SIH26162-blue.svg?style=flat-square)](https://www.sih.gov.in/)
 [![Category](https://img.shields.io/badge/Category-Software-green.svg?style=flat-square)](https://www.sih.gov.in/)
 [![Theme](https://img.shields.io/badge/Theme-Disaster_Management-red.svg?style=flat-square)](https://www.sih.gov.in/)
+[![Live App](https://img.shields.io/badge/Demo-Live_on_Vercel-success.svg?style=flat-square&logo=vercel)](https://sih-2026-nu-ten.vercel.app/)
 [![React](https://img.shields.io/badge/Frontend-React_19_+_Vite-61dafb.svg?style=flat-square&logo=react)](https://react.dev/)
-[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com/)
-[![XGBoost](https://img.shields.io/badge/ML-XGBoost-eb5424.svg?style=flat-square)](https://xgboost.readthedocs.io/)
+[![TailwindCSS v4](https://img.shields.io/badge/Styling-TailwindCSS_v4-38bdf8.svg?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
+[![MapLibre GL](https://img.shields.io/badge/Maps-MapLibre_GL-3274a3.svg?style=flat-square)](https://maplibre.org/)
+[![Three.js](https://img.shields.io/badge/3D-Three.js-black.svg?style=flat-square&logo=threedotjs)](https://threejs.org/)
+[![XGBoost](https://img.shields.io/badge/ML-XGBoost_Classifier-eb5424.svg?style=flat-square)](https://xgboost.readthedocs.io/)
 
 > **SIH 2026 Project Submission**  
 > AI-Powered Earth Observation & Disaster Management Platform for Satellite Thermal Anomaly Classification, Risk Scoring, and Tactical Triage.
@@ -22,6 +25,7 @@
 - **Theme:** Disaster Management
 - **Institution:** Netaji Subhas University of Technology (NSUT), New Delhi
 - **Team:** Team THERMOS
+- **Live Deployment:** [https://sih-2026-nu-ten.vercel.app/](https://sih-2026-nu-ten.vercel.app/)
 - **Team Composition (6 Members):**
   - Frontend Engineering & GIS Integration (MapLibre GL, 3D WebGL Globe, Spatial Visualization)
   - Dashboard UI & Real-Time Data Visualization (Recharts, Incident Triage, Event Drawers)
@@ -46,18 +50,19 @@ Every 10 to 20 minutes, satellites including **NASA VIIRS (Suomi NPP & NOAA-20)*
 
 **THERMOS** transforms raw satellite heat spots into **actionable tactical intelligence**. It operates as an end-to-end multi-modal pipeline:
 
-1. **Automated Satellite Ingestion:** Periodically ingests active thermal anomaly detections from NASA FIRMS feeds.
+1. **Automated Satellite Ingestion:** Ingests active thermal anomaly detections from NASA FIRMS feeds.
 2. **Multi-Source Context Enrichment:**
    - **OpenStreetMap (OSM Overpass API):** Identifies proximity to industrial perimeters, refineries, chemical plants, and hazardous infrastructure.
    - **ESA WorldCover / Land Cover Rasters:** Pinpoints land use (industrial complexes, cropland, dense forest, scrubland, urban fringes).
    - **WorldPop Density Buffers:** Estimates affected human population within 1 km and 5 km impact radiuses.
    - **Temporal History Engine:** Evaluates persistence over 24-hour, 7-day, and 30-day windows to detect recurring operational heat vs. sudden anomalous escalation.
-3. **Machine Learning Ensemble:** An optimized multi-class **XGBoost Classifier** evaluates a 14-dimensional feature vector to accurately categorize the event into:
-   - `Industrial Accidental Fire` (Critical operational emergency)
-   - `Industrial Persistent Source` (Routine operational kiln/furnace/stack)
-   - `Gas Flare` (Permitted petrochemical flaring)
-   - `Wildfire` (Spreading vegetation fire)
-   - `Agricultural Burning` (Seasonal crop residue stubble fire)
+3. **Machine Learning Ensemble:** An optimized multi-class **XGBoost Classifier** evaluates a 14-dimensional feature vector to classify anomalies across 6 verified event categories:
+   - `Industrial Fire` (Accidental fire outbreak requiring emergency response)
+   - `Industrial Thermal Source` (Routine operational kiln, blast furnace, or stack)
+   - `Gas Flare` (Petrochemical venting and flaring)
+   - `Wildfire` (Vegetation and forest fire spread)
+   - `Agricultural Burning` (Seasonal crop residue stubble burning)
+   - `Mining Activity` (Active mining and extraction thermal signatures)
 4. **Dynamic Operational Risk Engine:** Calculates a prioritized **Risk Score (0–100)** factoring thermal escalation (+FRP velocity), industrial proximity hazard, and population vulnerability.
 5. **Tactical Command Centre:** An interactive web dashboard with GIS mapping, 3D Earth thermal anomaly globe, automated priority triage queue, explainable evidence cards, and an AI-driven incident investigator.
 
@@ -65,35 +70,39 @@ Every 10 to 20 minutes, satellites including **NASA VIIRS (Suomi NPP & NOAA-20)*
 
 ## 4. Key Features
 
-- 🛰️ **Real-Time Satellite Feed Ingestion:** Direct integration with NASA FIRMS API (SNPP, NOAA-20, Aqua/Terra MODIS).
-- 🗺️ **High-Performance GIS Command Centre:** Interactive vector map powered by MapLibre GL with thermal heat signatures, industrial boundary polygons, and dynamic radius buffers.
-- 🌐 **Interactive 3D Thermal Globe:** WebGL-rendered interactive digital Earth built with Three.js / React Three Fiber showcasing global satellite hot spots and event density.
-- 🎯 **Multi-Class ML Classification:** Instant classification with per-category confidence probabilities and transparent evidence factors.
+- 🌐 **Interactive 3D Thermal Globe:** WebGL digital Earth built with Three.js showcasing global satellite hot spots and event density.
+- 🗺️ **Tactical GIS Command Centre:** Interactive vector map powered by MapLibre GL with thermal heat signatures, industrial boundary polygons, and dynamic radius buffers.
+- 🎯 **Multi-Class ML Classification:** 6-class XGBoost model with per-category confidence probabilities and transparent evidence factors.
 - 🚨 **Automated Priority Queue & Triage:** Events automatically ranked into `Critical`, `High`, `Moderate`, and `Low` risk tiers for rapid responder dispatch.
-- 🔍 **Incident Investigator & Explainability:** Detailed forensic drawer displaying thermal history, FRP trend charts, spatial context, and explainable AI insights.
-- 📊 **Historical Analytics & Trend Intelligence:** Spatial and temporal heat-maps, category distribution, persistence analysis, and cluster patterns.
+- 🔍 **Incident Investigator & Explainability:** Detailed forensic drawer displaying thermal history, FRP trend charts, spatial context, and SHAP-grounded explainable evidence.
+- 📊 **Historical Analytics & Trend Intelligence:** Spatial and temporal heat-maps, category distribution, persistence analysis, and cluster patterns via Recharts.
 - ⚡ **Resilient Dual-Mode Operation:** Built with automatic fallback to high-fidelity simulated telemetry when offline or during rate-limited conditions, ensuring uninterrupted operator uptime.
 
 ---
 
-## 5. Technology Stack
+## 5. Technology Stack (Verified Against Codebase)
 
-| Layer | Technologies |
-|---|---|
-| **Frontend Framework** | React 19, Vite, React Router v7 |
-| **Styling & Design System** | TailwindCSS v4, Custom Tactical Theme Tokens |
-| **Geospatial & 3D Rendering** | MapLibre GL, Three.js, React Three Fiber, React Three Drei |
-| **Data Visualization** | Recharts, Framer Motion (micro-animations) |
-| **State Management** | Zustand |
-| **Backend API** | Python 3.10+, FastAPI, Uvicorn, Pydantic |
-| **Machine Learning** | XGBoost, Scikit-learn, NumPy, Pandas |
-| **Geospatial Processing** | OpenStreetMap (Overpass API), ESA WorldCover, WorldPop, Shapely |
-| **Database & Spatial Indexing** | PostgreSQL + PostGIS, SQLAlchemy, Alembic (SQLite demo support) |
-| **Deployment & DevOps** | Docker, Docker Compose, Render Cloud |
+### Frontend
+- **Framework:** React 19 (`react` 19.2.8, `react-dom` 19.2.8, `react-router-dom` 7.18.3)
+- **Build Tool:** Vite 8.2.2 with `@vitejs/plugin-react`
+- **Styling:** TailwindCSS v4 (`@tailwindcss/vite` 4.3.3, `tailwindcss` 4.3.3) with `@theme` design tokens in `src/index.css`
+- **Geospatial 2D Mapping:** MapLibre GL (`maplibre-gl` 6.6.0)
+- **3D Visualization:** Three.js (`three` 0.185.1) WebGL canvas
+- **Animation & Transitions:** Framer Motion (`framer-motion` 13.1.1)
+- **Data Charts:** Recharts (`recharts` 3.10.1)
+- **State Management:** Zustand (`zustand` 5.0.15)
+- **Linting:** Oxlint (`oxlint` 1.79.0)
+
+### Backend & Machine Learning
+- **API Framework:** FastAPI, Uvicorn, Pydantic
+- **ML Classifier:** XGBoost (`xgboost` 3.4.1), Scikit-learn, SHAP (`shap` 0.52.0)
+- **Data & Geospatial:** NumPy, Pandas, GeoPandas, Shapely, OpenStreetMap Overpass API
+- **Database & Spatial ORM:** PostgreSQL + PostGIS, SQLAlchemy, GeoAlchemy2, Alembic
+- **Task Scheduling:** APScheduler
 
 ---
 
-## 6. Architecture
+## 6. Architecture & Data Flow
 
 Detailed architectural specification is documented in [docs/architecture.md](docs/architecture.md).
 
@@ -162,7 +171,18 @@ Detailed architectural specification is documented in [docs/architecture.md](doc
 
 ---
 
-## 7. Repository Structure
+## 7. Machine Learning Model Details
+
+| Attribute | Specification |
+|---|---|
+| **Model Type** | Multi-class XGBoost Classifier (`n_estimators: 200`, `max_depth: 6`, `lr: 0.1`) |
+| **Output Classes (6)** | `Agricultural Burning`, `Gas Flare`, `Industrial Fire`, `Industrial Thermal Source`, `Mining Activity`, `Wildfire` |
+| **Input Features (14)** | `cropland_proximity_km`, `mine_proximity_km`, `forest_proximity_km`, `observation_count_7d`, `industrial_proximity_km`, `population_5km`, `refinery_proximity_km`, `land_cover`, `persistence_hours_7d`, `frp_trend_pct`, `brightness_k`, `frp_mw`, `daynight`, `firms_confidence_pct` |
+| **Explainability** | SHAP (SHapley Additive exPlanations) & Feature attribution scores |
+
+---
+
+## 8. Repository Structure
 
 ```text
 thermos-sih/
@@ -174,7 +194,7 @@ thermos-sih/
 ├── public/                     # Static icons, map markers, and web assets
 ├── src/
 │   ├── components/
-│   │   ├── landing/            # Landing page hero, 3D globe canvas, feature cards
+│   │   ├── landing/            # Landing page hero, Three.js 3D globe, feature cards
 │   │   ├── layout/             # Topbar navigation, side drawers, application shell
 │   │   ├── map/                # MapLibre GL controls, heat layers, marker popups
 │   │   └── shared/             # Stat widgets, badges, risk meters, buttons
@@ -189,7 +209,7 @@ thermos-sih/
 │   │   ├── Investigator.jsx    # Evidence card explorer & case analysis
 │   │   └── SystemHealth.jsx    # Pipeline ingestion rate & ML latency monitor
 │   ├── services/
-│   │   └── api.js              # REST client connecting to live FastAPI backend
+│   │   └── api.js              # REST client connecting to backend API
 │   ├── store/
 │   │   └── useStore.js         # Central Zustand state management store
 │   ├── App.jsx                 # Client-side router configuration
@@ -203,12 +223,12 @@ thermos-sih/
 
 ---
 
-## 8. Getting Started & Local Setup
+## 9. Getting Started & Local Setup
 
 ### Prerequisites
 - **Node.js**: v18.0.0 or higher
 - **npm** or **yarn**
-- **Modern Web Browser**: Chrome, Firefox, Safari, or Edge with WebGL 2.0 enabled
+- **Modern Web Browser**: Chrome, Firefox, Safari, or Edge with WebGL enabled
 
 ### Installation Steps
 
@@ -223,20 +243,13 @@ thermos-sih/
    npm install
    ```
 
-3. **Configure Environment (Optional):**
-   By default, the dashboard connects to the live deployed THERMOS backend API on Render. You can specify a local backend by creating a `.env` file:
-   ```env
-   VITE_THERMOS_API_URL=https://thermos-backend-gz3d.onrender.com
-   ```
-   *(For local backend development, set `VITE_THERMOS_API_URL=http://localhost:8000`)*
-
-4. **Launch Development Server:**
+3. **Launch Development Server:**
    ```bash
    npm run dev
    ```
    Open your browser at `http://localhost:5173`.
 
-5. **Build for Production:**
+4. **Build for Production:**
    ```bash
    npm run build
    npm run preview
@@ -244,17 +257,15 @@ thermos-sih/
 
 ---
 
-## 9. Submission & Demonstration Links
+## 10. Submission & Demonstration Links
 
-- **Live Web Application:** *Coming Soon (Deployment in progress)*
-- **Live Backend API (Render):** [https://thermos-backend-gz3d.onrender.com/api/stats](https://thermos-backend-gz3d.onrender.com/api/stats)
-- **Interactive API Documentation:** [https://thermos-backend-gz3d.onrender.com/docs](https://thermos-backend-gz3d.onrender.com/docs)
+- **Live Web Application (Vercel):** [https://sih-2026-nu-ten.vercel.app/](https://sih-2026-nu-ten.vercel.app/)
 - **Presentation Deck:** See [submission/PRESENTATION.md](submission/PRESENTATION.md)
 - **Demo Video Walkthrough:** See [submission/DEMO.md](submission/DEMO.md)
 
 ---
 
-## 10. Acknowledgements & Data Sources
+## 11. Acknowledgements & Data Sources
 
 - **NASA FIRMS (Fire Information for Resource Management System):** Real-time thermal anomaly data from VIIRS and MODIS instruments.
 - **OpenStreetMap & Overpass API:** Global open crowd-sourced spatial infrastructure and industrial boundary polygons.
